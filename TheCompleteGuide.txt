@@ -1,0 +1,19 @@
+--------------------------------INSTALLATIONS FROM NUGGET
+
+1>Microsoft.EntityFrameworkCore
+2>Microsoft.EntityFrameworkCore.SqlServer
+3>Swashbuckle.AspNetCore
+
+
+SREP 1> START WITH THE PROJECT STRUCTURE ADD A BLANKSOLUTION & IN THE BLANK SOLUTION (ADD THE FOLLOWING CLASS LIBRARY) AND (1 WEB API PROJECT)
+
+1>TheCompleteProject.Api (webapi)
+2>TheCompleteProject.ModelsAndDto's
+3>TheCompleteProject.Repository
+3>TheCompleteProject.Service
+3>TheCompleteProject.Utility
+
+
+SREP 2> START WITH THE PROJECT STRUCTURE ADD A BLANKSOLUTION & IN THE BLANK SOLUTION (ADD 4 CLASS LIBRARY) AND (1 WEB API PROJECT)
+CREATE THE BASE REPOSITORY CLASS IN THE 
+3>TheCompleteProject.Repository  : It Will Contain The Comman Code That is Generic Code That Will Be Use Througout The Application Implementation
