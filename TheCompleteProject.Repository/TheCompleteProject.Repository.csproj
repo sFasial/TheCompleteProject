@@ -8,4 +8,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TheCompleteProject.ModelsAndDto's\TheCompleteProject.ModelsAndDto's.csproj" />
+  </ItemGroup>
+
 </Project>

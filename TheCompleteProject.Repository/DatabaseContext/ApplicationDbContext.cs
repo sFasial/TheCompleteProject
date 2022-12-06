@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TheCompleteProject.ModelsAndDto_s.DbModels;
 
 namespace TheCompleteProject.Repository.DatabaseContext
 {
@@ -10,6 +11,6 @@ namespace TheCompleteProject.Repository.DatabaseContext
         }
 
         //DbSets Will Come Here
-        public DbSet<> MyProperty { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }
