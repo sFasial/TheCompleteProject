@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheCompleteProject.Repository.DatabaseContext;
+using TheCompleteProject.Service.MappingProfile;
 
 namespace TheCompleteProject.Api
 {
@@ -30,16 +31,20 @@ namespace TheCompleteProject.Api
 
             services.AddControllers();
 
-            #region DATABASE CONNECTION STRING
+            #region STEP 1 : DATABASE CONNECTION STRING
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
             #endregion
 
-            #region SWAGGER CONFIGURATION
+            #region STEP 2 : SWAGGER CONFIGURATION
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "THECOMPLETEDOTNETCOREGUIDE", Version = "v1" });
             });
+            #endregion
+
+            #region STEP 3 :  AUTOMAPPER
+            services.AddAutoMapper(typeof(AutoMapperProfile));
             #endregion
         }
 
