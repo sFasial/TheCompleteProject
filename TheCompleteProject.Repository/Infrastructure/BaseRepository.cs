@@ -70,7 +70,7 @@ namespace TheCompleteProject.Repository.Infrastructure
         public async Task<object> UpdateAsync(T entity)
         {
             _context.Update(entity);
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
             return entity;
         }
         #endregion

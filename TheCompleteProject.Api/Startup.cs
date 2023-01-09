@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +12,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheCompleteProject.Repository.DatabaseContext;
+using TheCompleteProject.Repository.Infrastructure;
+using TheCompleteProject.Repository.Repositories.User;
 using TheCompleteProject.Service.MappingProfile;
+using TheCompleteProject.Service.Services.User;
 
 namespace TheCompleteProject.Api
 {
@@ -46,6 +50,13 @@ namespace TheCompleteProject.Api
             #region STEP 3 :  AUTOMAPPER
             services.AddAutoMapper(typeof(AutoMapperProfile));
             #endregion
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
+            services.AddScoped(typeof(IUserRepository), typeof(UserRepository))
+                .AddScoped(typeof(IUserService), typeof(UserService));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,9 +65,10 @@ namespace TheCompleteProject.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "THECOMPLETEDOTNETCOREGUIDE v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "THECOMPLETEDOTNETCOREGUIDE v1"));
 
             app.UseHttpsRedirection();
 
