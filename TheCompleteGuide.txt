@@ -25,3 +25,78 @@ STEP 3> AFTER THE BASE REPOSITORY CODE IS COMPLETED NOW YOU CAN ADD
 STEP 4>ADD AutoMapper Install The Following Packages
 1>AutoMapper
 2>AutoMapper.Extensions.Microsoft.DependencyInjection
+
+STEP 5>ADD Unit Of Work
+It will contain an Interface and a method SaveChangesAsync
+We will have to initialize all the repository here
+
+
+STEP 6>ADD Exception Filter : CONFIGURE IT IN STARTUP IS THE FIRST STEP AND REMEBER TO CONFIGURE IT ABOVE 
+  app.UseAuthorization(); MIDDELWARE
+For Exception Filter Added A Middleware Folder And in that added a Class ExceptionMiddelware
+1> That class will have the following method : 
+     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+        {
+            try
+            {
+                await next(context);
+            }
+            catch (Exception ex)
+            {
+                await HandleExceptionAsync(context, ex);
+            }
+        }
+So the role of this class is that its processes your request and if An Error is found it catches the error  ANd we add a custom
+method that gives us the type of error 
+        private async Task HandleExceptionAsync(HttpContext context , Exception exception)
+        {
+            context.Response.ContentType = "application/json";
+            var exceptionData = GetExceptionDetails(exception);
+            context.Response.StatusCode = (int)exceptionData.StatusCode;
+            await context.Response.WriteAsync(exceptionData.ToString());
+        }
+We can add as many Else block as we want
+        private ResponseModel GetExceptionDetails(Exception exception)
+        {
+            var model = new ResponseModel();
+            var exceptionType = exception.GetType();
+
+            if (exceptionType == typeof(UnauthorizedAccessException))
+            {
+                model.StatusCode = (int)HttpStatusCode.Unauthorized;
+                model.Message = exception.Message;
+            }
+               else if (exceptionType == typeof(BadResultException))
+            {
+                model.StatusCode = (int)HttpStatusCode.BadRequest;
+                model.Message = exception.Message;
+            }
+            else
+            {
+                model.StatusCode = (int)HttpStatusCode.InternalServerError;
+                model.Message = exception.Message;
+            }
+            return model;
+        }
+    }
+
+2> And for Each Else block we add a corresoponding class 
+
+  [Serializable]
+    public class BadResultException : Exception
+    {
+        public BadResultException()
+        {
+
+        }
+
+        public BadResultException(string message) : base(message)
+        {
+
+        }
+        public BadResultException(string message, Exception inner) : base(message, inner)
+        {
+
+        }
+    }
+

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TheCompleteProject.Api.Infrastructure.Middelware;
 using TheCompleteProject.Repository.DatabaseContext;
 using TheCompleteProject.Repository.Infrastructure;
 using TheCompleteProject.Repository.Repositories.User;
@@ -51,28 +52,58 @@ namespace TheCompleteProject.Api
             services.AddAutoMapper(typeof(AutoMapperProfile));
             #endregion
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository))
                 .AddScoped(typeof(IUserService), typeof(UserService));
 
+            services.AddTransient<ExceptionMiddleware>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        //public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        //{
+        //    if (env.IsDevelopment())
+        //    {
+        //        app.UseDeveloperExceptionPage();
+        //    }
+
+        //    app.UseSwagger();
+        //    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "THECOMPLETEDOTNETCOREGUIDE v1"));
+
+        //    app.UseHttpsRedirection();
+
+        //    app.UseRouting();
+
+        //    app.UseMiddleware<ExceptionMiddleware>();
+
+        //    app.UseAuthorization();
+
+        //    app.UseEndpoints(endpoints =>
+        //    {
+        //        endpoints.MapControllers();
+        //    });
+        //}
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CustomExceptionFilter v1"));
             }
-
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "THECOMPLETEDOTNETCOREGUIDE v1"));
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseAuthorization();
 

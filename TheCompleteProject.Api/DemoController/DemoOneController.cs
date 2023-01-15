@@ -22,6 +22,15 @@ namespace TheCompleteProject.Api.DemoController
             _mapper = mapper;
         }
 
+        [HttpGet("DivideByZeroException")]
+        public IActionResult DivideByZeroException()
+        {
+            int a = 5;
+            int b = 0;
+            var result = a / b;
+            return Ok(result);
+        }
+
         [HttpGet("Users")]
         public IActionResult AllUsers()
         {

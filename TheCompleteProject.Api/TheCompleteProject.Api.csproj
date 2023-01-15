@@ -16,4 +16,9 @@
     <ProjectReference Include="..\TheCompleteProject.Service\TheCompleteProject.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\Filter\" />
+    <Folder Include="Infrastructure\Models\" />
+  </ItemGroup>
+
 </Project>
