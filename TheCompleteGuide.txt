@@ -5,7 +5,7 @@
 3>Swashbuckle.AspNetCore
 
 
-SREP 1> START WITH THE PROJECT STRUCTURE ADD A BLANKSOLUTION & IN THE BLANK SOLUTION (ADD THE FOLLOWING CLASS LIBRARY) AND (1 WEB API PROJECT)
+--------------------------------  STEP 1> START WITH THE PROJECT STRUCTURE ADD A BLANKSOLUTION & IN THE BLANK SOLUTION (ADD THE FOLLOWING CLASS LIBRARY) AND (1 WEB API PROJECT)
 
 1>TheCompleteProject.Api (webapi)
 2>TheCompleteProject.ModelsAndDto's
@@ -14,19 +14,21 @@ SREP 1> START WITH THE PROJECT STRUCTURE ADD A BLANKSOLUTION & IN THE BLANK SOLU
 3>TheCompleteProject.Utility
 
 
-SREP 2> START WITH THE PROJECT STRUCTURE ADD A BLANKSOLUTION & IN THE BLANK SOLUTION (ADD 4 CLASS LIBRARY) AND (1 WEB API PROJECT)
+--------------------------------  STEP 2> START WITH THE PROJECT STRUCTURE ADD A BLANKSOLUTION & IN THE BLANK SOLUTION (ADD 4 CLASS LIBRARY) AND (1 WEB API PROJECT)
 CREATE THE BASE REPOSITORY CLASS IN THE 
 3>TheCompleteProject.Repository  : It Will Contain The Comman Code That is Generic Code That Will Be Use Througout The Application Implementation
 
-STEP 3> AFTER THE BASE REPOSITORY CODE IS COMPLETED NOW YOU CAN ADD 
+--------------------------------  STEP 3> AFTER THE BASE REPOSITORY CODE IS COMPLETED NOW YOU CAN ADD 
 1>A CONNECTION STRING IN STARTUP.CS AND APPSETTING.JSON AND CHECKED IF THE CONNECTIONS ARE MADE AND THE APPLICATONDBCONTEXT IS INITIALIZED PROPERLY
 2>CONFIGURE SWAGGER.CS IN THE STARTUP FOR TESTING API'S
 
-STEP 4>ADD AutoMapper Install The Following Packages
+--------------------------------  STEP 4>ADD AutoMapper Install The Following Packages
 1>AutoMapper
 2>AutoMapper.Extensions.Microsoft.DependencyInjection
 
-STEP 5>ADD Unit Of Work
+
+
+--------------------------------  STEP 5>ADD Unit Of Work
 It will contain an Interface and a method SaveChangesAsync
 We will have to initialize all the repository here
 
@@ -100,3 +102,30 @@ We can add as many Else block as we want
         }
     }
 
+-------------------------------- STEP 6> WORKING WITH FILES
+
+1> START WITH UTILS FOLDER   ... ADDED BULK IMPORT FOLDER 
+1. ADDED ExportImportHelper 
+2. IgnoreInExportAttribute
+3. LanguageContentLoader
+
+2> START WITH UTILS FOLDER   ... ADDED A FOLDER named LOCATIONS FOLDER 
+
+3> START WITH UTILS FOLDER   ... ADDED A MULTIMEDIA HELPERS FOLDER 
+ADD CORRESPONDING METHODS
+1. GetBase64String()
+2. GetPath()
+3. GenerateFile()
+4. GenerateFileFromBase64String()
+
+In This Section I have First Added Any Type of file with FFCSaveAttachments Controller 
+Then I have uploaded a file that is bulk upload with  ... FileUploadCompliance Controller
+
+==>ADDED A CONTROLLER FileUploadComplianceWithCustomResponse
+1> WE HAVE TO USE IFORMFILE TO ACCPET THE FILE FROM THE USER  IN MY CASE ==> UploadUser
+2> CREATE A SAME MODEL AS EXCEL IN MY CASE ==> UploadUserErrorDto
+
+3> CREATE 2 LIST ONE FOR PROCESSING THE ERROR DATA AND ONE FOR PROCESSING THE SUCCESS DATA 
+ERROR DATA WILL HAVE ALL THE SAME COLUMNS AS EXCEL AND A ERROR LIST PROPERTY ==>UploadUserErrorDto
+
+4> ADD A FLUENT VALIDATION CLASS ==> UploadUserValidator

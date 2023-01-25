@@ -1,0 +1,16 @@
+{
+  "EMP100": "Success.",
+  "EMP101": "Failure.",
+  "EMP102": "Access denied.",
+
+  "EMP200": "Record not found.",
+  "EMP201": "Record added successfully.",
+  "EMP202": "Record updated successfully.",
+  "EMP203": "Record deleted successfully.",
+
+  //UploadUser
+  "EMP300": "UserName Is Mandatory.",
+  "EMP301": "Email Is Mandatory.",
+  "EMP302": "Password Is Mandatory.",
+  "EMP303": "Password Contains Special Characters ."
+}

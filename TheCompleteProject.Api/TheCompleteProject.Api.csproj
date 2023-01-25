@@ -14,11 +14,13 @@
   <ItemGroup>
     <ProjectReference Include="..\TheCompleteProject.Repository\TheCompleteProject.Repository.csproj" />
     <ProjectReference Include="..\TheCompleteProject.Service\TheCompleteProject.Service.csproj" />
+    <ProjectReference Include="..\TheCompleteProject.Utility\TheCompleteProject.Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Infrastructure\Filter\" />
     <Folder Include="Infrastructure\Models\" />
+    <Folder Include="wwwroot\TestingFiles\" />
   </ItemGroup>
 
 </Project>

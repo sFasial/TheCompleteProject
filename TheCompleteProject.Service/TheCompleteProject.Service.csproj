@@ -7,10 +7,13 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="FluentValidation" Version="11.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TheCompleteProject.ModelsAndDto's\TheCompleteProject.ModelsAndDto's.csproj" />
+    <ProjectReference Include="..\TheCompleteProject.Repository\TheCompleteProject.Repository.csproj" />
+    <ProjectReference Include="..\TheCompleteProject.Utility\TheCompleteProject.Utility.csproj" />
   </ItemGroup>
 
 </Project>
