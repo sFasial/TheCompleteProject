@@ -13,7 +13,7 @@ using TheCompleteProject.ModelsAndDto_s.DbModels;
 using TheCompleteProject.Service.Services.User;
 using LicenseContext = OfficeOpenXml.LicenseContext;
 
-namespace TheCompleteProject.Api.DemoController
+namespace TheCompleteProject.Api.FileUploadController
 {
 
     //https://www.youtube.com/watch?v=j3S3aI8nMeE

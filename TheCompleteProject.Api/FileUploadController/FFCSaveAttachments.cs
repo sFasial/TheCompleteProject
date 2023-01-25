@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheCompleteProject.Utility.MultimediaHelpers;
 
-namespace TheCompleteProject.Api.DemoController
+namespace TheCompleteProject.Api.FileUploadController
 {
     [Route("api/[controller]")]
     [ApiController]

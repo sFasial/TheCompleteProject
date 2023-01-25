@@ -16,7 +16,7 @@ using TheCompleteProject.Utility.BulkImport;
 using TheCompleteProject.Utility.FolderLocations;
 using TheCompleteProject.Utility.MultimediaHelpers;
 
-namespace TheCompleteProject.Api.DemoController
+namespace TheCompleteProject.Api.FileUploadController
 {
     public class FileUploadComplianceWithCustomResponse : BaseController
     {

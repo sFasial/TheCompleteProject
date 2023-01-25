@@ -12,4 +12,8 @@
     <ProjectReference Include="..\TheCompleteProject.ModelsAndDto's\TheCompleteProject.ModelsAndDto's.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DBScripts\Users\" />
+  </ItemGroup>
+
 </Project>

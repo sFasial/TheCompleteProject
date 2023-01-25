@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TheCompleteProject.Api.DemoController
+namespace TheCompleteProject.Api.FileUploadController
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using TheCompleteProject.ModelsAndDto_s.Dtos;
 using TheCompleteProject.Repository.DatabaseContext;
 
-namespace TheCompleteProject.Api.DemoController
+namespace TheCompleteProject.Api.FileUploadController
 {
     [Route("api/[controller]")]
     [ApiController]

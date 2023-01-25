@@ -12,7 +12,7 @@ using TheCompleteProject.Service.Validators;
 using TheCompleteProject.Utility.BulkImport;
 using NPOI.XSSF.UserModel;
 
-namespace TheCompleteProject.Api.DemoController
+namespace TheCompleteProject.Api.FileUploadController
 {
     [Route("api/[controller]")]
     [ApiController]
