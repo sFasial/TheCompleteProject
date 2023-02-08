@@ -53,12 +53,12 @@ namespace TheCompleteProject.Api.TestController
             return Ok(dt);
         }
 
-        [HttpGet]
-        [Route(("DataSet"))]
-        public async Task<IActionResult> DataSet()
-        {
-            var _users = await _userService.GetUsersAsync();
-            var users = _users.ToList();
-        }
+        //[HttpGet]
+        //[Route(("DataSet"))]
+        //public async Task<IActionResult> DataSet()
+        //{
+        //    var _users = await _userService.GetUsersAsync();
+        //    var users = _users.ToList();
+        //}
     }
 }

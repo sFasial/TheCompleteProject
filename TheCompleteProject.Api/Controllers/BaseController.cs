@@ -13,6 +13,10 @@ namespace TheCompleteProject.Api.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
+
+        protected int UserId => HttpContext.User.Identity.IsAuthenticated ? Convert.ToInt32(HttpContext.User.Claims.First(x => x.Type == "Id").Value) : 0 ;
+        protected string UserName => HttpContext.User.Identity.IsAuthenticated ? HttpContext.User.Claims.First(x => x.Type == "UserName").Value : "";
+
         protected Dictionary<string, object> ApiResponse(string msgCode, object result, string languageCode = "")
         {
             var response = new Dictionary<string, object>();

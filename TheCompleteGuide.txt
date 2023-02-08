@@ -1,3 +1,6 @@
+IF YOUR SWAGGER IS NOT OPPENING ADD THIS IN LAUNCH URL OF profiles{Express AND YOUR PROJECT(TheCompleteProject) }
+"launchUrl": "swagger"
+
 --------------------------------INSTALLATIONS FROM NUGGET
 
 1>Microsoft.EntityFrameworkCore
@@ -7,7 +10,7 @@
 
 --------------------------------  STEP 1> START WITH THE PROJECT STRUCTURE ADD A BLANKSOLUTION & IN THE BLANK SOLUTION (ADD THE FOLLOWING CLASS LIBRARY) AND (1 WEB API PROJECT)
 
-1>TheCompleteProject.Api (webapi)
+1>TheCompleteProject.Api ... Blank Solution (webapi) 
 2>TheCompleteProject.ModelsAndDto's
 3>TheCompleteProject.Repository
 3>TheCompleteProject.Service
@@ -33,7 +36,50 @@ It will contain an Interface and a method SaveChangesAsync
 We will have to initialize all the repository here
 
 
-STEP 6>ADD Exception Filter : CONFIGURE IT IN STARTUP IS THE FIRST STEP AND REMEBER TO CONFIGURE IT ABOVE 
+--------------------------------  STEP 6> ADDED AUTO REGISTERING SERVICES AutoRegisterDi
+THE PURPOSE OF THIS FILE IS AFTER ADDING THIS FILE YOU DO NOT NEED TO ADD THE I SERVICE PART YOU ONLY HAVE TO ADD THE REPOSITORIES IN STARTUP 
+
+    //services.AddScoped(typeof(IUserRepository), typeof(UserRepository))
+              .AddScoped(typeof(IUserService), typeof(UserService));
+
+
+
+ADD THE FOLLOWING PACKAGES
+
+1> NetCore.AutoRegisterDi
+
+ADD A CLASS APPSETTINGS
+STARTUP CODE
+public void ConfigureServices(IServiceCollection services)
+{
+        
+}
+
+ADDED AN EXTENSION METHOD OF THE ABOVE CLASS IN API LAYER 
+
+public static class IServiceCollectionExtension
+{
+    public static void RegisterServices(this IServiceCollection services)
+    {
+        var assembliesToScan = new[]
+        {
+         Assembly.GetExecutingAssembly(),
+         Assembly.GetAssembly (typeof (IBaseService))
+        };
+    
+        services.RegisterAssemblyPublicNonGenericClasses(assembliesToScan)
+            .AsPublicImplementedInterfaces();
+    }
+}
+
+ADDED A BLANK INTERFACE CLASS IN SERVICE LAYER
+
+public interface IBaseService
+{
+
+}
+
+--------------------------------  STEP 7>ADD Exception Filter : CONFIGURE IT IN STARTUP IS THE FIRST STEP AND REMEBER TO CONFIGURE IT ABOVE 
   app.UseAuthorization(); MIDDELWARE
 For Exception Filter Added A Middleware Folder And in that added a Class ExceptionMiddelware
 1> That class will have the following method : 
@@ -102,7 +148,7 @@ We can add as many Else block as we want
         }
     }
 
--------------------------------- STEP 6> WORKING WITH FILES
+-------------------------------- STEP 8> WORKING WITH FILES
 
 1> START WITH UTILS FOLDER   ... ADDED BULK IMPORT FOLDER 
 1. ADDED ExportImportHelper 
@@ -129,3 +175,60 @@ Then I have uploaded a file that is bulk upload with  ... FileUploadCompliance C
 ERROR DATA WILL HAVE ALL THE SAME COLUMNS AS EXCEL AND A ERROR LIST PROPERTY ==>UploadUserErrorDto
 
 4> ADD A FLUENT VALIDATION CLASS ==> UploadUserValidator
+
+-------------------------------- STEP 9> BINDING OF APPSETTING.JSON WITH APP SETTING IN UTILITY
+
+FOR BINDING THE APP SETTING CLASS WE NEED TO ADD A CLASS AND PUT ALL THE CONFIGURATION FROM APPSETTING.JSON PROPERTIES  IN 
+THAT CLASS
+
+STARTUP CODE
+
+public void ConfigureServices(IServiceCollection services)
+{
+    var appSettingSection = Configuration.GetSection("AppSettings");
+    services.Configure<AppSettings>(appSettingSection);
+    var appSettings = appSettingSection.Get<AppSettings>();
+}
+
+CONSTRUCTOR 
+private readonly IUserService _userService;
+private readonly AppSettings _appSettings;
+
+
+public UsersController(IUserService userService, IOptions<AppSettings> appSettings)
+{
+    _userService = userService;
+    _appSettings = appSettings.Value;
+
+}
+
+-------------------------------- STEP 10> ADDED JSON WEB TOKENS JWT
+
+SO IN THE STARTUP CODE THE 
+VALID ISSUER :   (ISSUER IS THE SERVER OR DOMAIN THAT IS ISSUING A JWT TOKEN)WE HAVE SET THIS TO FALSE THAT MEANS FOR NOW WE ARE ACCEPTING REQUESTS FROM ANY PORT
+VALID AUDIENCE : (AUDIENCE ARE THE PEOPLE THAT IS GOING TO USE THE SERVER) WE HAVE SET THIS TO FALSE THAT MEANS FOR NOW WE ARE ACCEPTING REQUESTS FROM ANY PORT
+
+STARTUP CODE
+
+public void ConfigureServices(IServiceCollection services)
+{
+#region JWT
+    //    var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+    
+    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+    {
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidAudience = Configuration["Jwt:Audience"],
+        ValidIssuer = Configuration["Jwt:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Secret"]))
+    };
+    });
+
+#endregion
+}
+

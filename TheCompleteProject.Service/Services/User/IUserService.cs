@@ -8,5 +8,7 @@ namespace TheCompleteProject.Service.Services.User
     {
         Task<IEnumerable<Users>> GetUsersAsync();
         Task<Users> AddUserAsync(Users user);
+
+        Task<Users> GetUserByForLogin(string email, string password);
     }
 }
