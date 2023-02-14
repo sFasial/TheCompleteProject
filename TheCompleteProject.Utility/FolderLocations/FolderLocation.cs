@@ -11,5 +11,6 @@ namespace TheCompleteProject.Utility.FolderLocations
         //public const string EN_US = @"\wwwroot\Content\en_US.json";
         public const string EN_US = @"\wwwroot\en_US.json";
         public const string TESTING_FILES = @"\wwwroot\TestingFiles";
+        public const string UPLOAD = @"\wwwroot\Upload";
     }
 }
