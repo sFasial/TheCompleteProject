@@ -7,13 +7,16 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
     <PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TheCompleteProject.ModelsAndDto's\TheCompleteProject.ModelsAndDto's.csproj" />
+    <ProjectReference Include="..\TheCompleteProject.Utility\TheCompleteProject.Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DBScripts\AllTables\" />
     <Folder Include="DBScripts\Users\" />
   </ItemGroup>
 

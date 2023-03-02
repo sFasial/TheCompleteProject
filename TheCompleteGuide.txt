@@ -1,6 +1,17 @@
 IF YOUR SWAGGER IS NOT OPPENING ADD THIS IN LAUNCH URL OF profiles{Express AND YOUR PROJECT(TheCompleteProject) }
 "launchUrl": "swagger"
-
+INDEX
+STEP 1> START WITH THE PROJECT STRUCTURE
+STEP 3> SET-UP THE PROJECT STRUCTURE i.e with ALL THE GENERIC CODE
+STEP 3> CONNECTION STRING AND CONFIGURE SWAGGER
+STEP 4> AutoMapper Install
+STEP 5> UNIT OF WORK
+STEP 6> ADDED AUTO REGISTERING SERVICES AutoRegisterDi
+STEP 7> ADD Exception Filter
+STEP 8> WORKING WITH FILES
+STEP 9> BINDING OF APP SETTING WITH APPSETTING CLASS 
+STEP 10> ADDED JSON WEB TOKENS JWT
+STEP 11> WORKING WITH STORE PROCEDURES
 --------------------------------INSTALLATIONS FROM NUGGET
 
 1>Microsoft.EntityFrameworkCore
@@ -21,7 +32,7 @@ IF YOUR SWAGGER IS NOT OPPENING ADD THIS IN LAUNCH URL OF profiles{Express AND Y
 CREATE THE BASE REPOSITORY CLASS IN THE 
 3>TheCompleteProject.Repository  : It Will Contain The Comman Code That is Generic Code That Will Be Use Througout The Application Implementation
 
---------------------------------  STEP 3> AFTER THE BASE REPOSITORY CODE IS COMPLETED NOW YOU CAN ADD 
+--------------------------------  STEP 3> AFTER THE BASE REPOSITORY CODE IS COMPLETED NOW YOU CAN ADD CONNECTION STRING AND CONFIGURE SWAGGER
 1>A CONNECTION STRING IN STARTUP.CS AND APPSETTING.JSON AND CHECKED IF THE CONNECTIONS ARE MADE AND THE APPLICATONDBCONTEXT IS INITIALIZED PROPERLY
 2>CONFIGURE SWAGGER.CS IN THE STARTUP FOR TESTING API'S
 
@@ -176,7 +187,12 @@ ERROR DATA WILL HAVE ALL THE SAME COLUMNS AS EXCEL AND A ERROR LIST PROPERTY ==>
 
 4> ADD A FLUENT VALIDATION CLASS ==> UploadUserValidator
 
--------------------------------- STEP 9> BINDING OF APPSETTING.JSON WITH APP SETTING IN UTILITY
+
+----ALSO TO WORK WITH DATATABLES
+I HAVE CREATED THIN CONTROLLER WorkingWithDataTableController..HERE WE HAVE AN EXAMPLE OF HOW TO FETCH 
+A COLUMN FROM THEIR NAME
+
+-------------------------------- STEP 9> BINDING OF APPSETTING.JSON WITH APP SETTING CLASS IN UTILITY
 
 FOR BINDING THE APP SETTING CLASS WE NEED TO ADD A CLASS AND PUT ALL THE CONFIGURATION FROM APPSETTING.JSON PROPERTIES  IN 
 THAT CLASS
@@ -232,3 +248,35 @@ public void ConfigureServices(IServiceCollection services)
 #endregion
 }
 
+-------------------------------- STEP 11> WORKING WITH STORE PROCEDURES
+SCRIPTS ARE UPDATED IN REPOSITORY SCRIPTS
+CLASS NAME CommonStoreProcedure
+
+1] RETURNING DYNAMIC COLUMN NAME
+NOTE IF WE WANT TO RETURN ONLY ONE COLUMN NAME WE CAN MAKE USE OF THE DYNAMIC OVERLOADED VERSION OF 
+STORE PROCEDURE
+
+REFRENCE 
+   public class StoreProcedureCalls : ControllerBase
+    {
+        [HttpGet("DynamicStoreProcedureGet")]
+        public async Task<IActionResult> DynamicStoreProcedureCallAsync(int id)
+        {
+            var result = await CommonStoreProcedure.GetUserNameByIdAsync(id);
+            return Ok(result);
+        }
+    }
+
+
+2] RETURNING VOID
+
+REFRENCE
+   public class StoreProcedureCalls : ControllerBase
+    {
+        [HttpPost("VoidStoreProcedure")]
+        public IActionResult AddVoid(string UserName, string Email, string Password, int RoleId)
+        {
+            CommonStoreProcedure.AddUsersBySp(UserName, Email, Password, RoleId);
+            return Ok("Record Added");
+        }
+    }
