@@ -72,7 +72,7 @@ namespace TheCompleteProject.Api.Controllers
                     UserName = validUser.UserName
                 };
 
-                var refreshToken = _jwtRefreshTokenService.AddUserRefreshTokens(obj);
+                await _jwtRefreshTokenService.AddUserRefreshTokens(obj);
 
                 return Ok(token);
             }
