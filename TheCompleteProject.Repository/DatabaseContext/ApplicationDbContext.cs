@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TheCompleteProject.ModelsAndDto_s.DbModels;
+using TheCompleteProject.ModelsAndDto_s.DbModels.Jwt;
 
 namespace TheCompleteProject.Repository.DatabaseContext
 {
@@ -12,5 +13,6 @@ namespace TheCompleteProject.Repository.DatabaseContext
 
         //DbSets Will Come Here
         public DbSet<Users> Users { get; set; }
+        public DbSet<UserRefreshTokens> UserRefreshTokens { get; set; }
     }
 }

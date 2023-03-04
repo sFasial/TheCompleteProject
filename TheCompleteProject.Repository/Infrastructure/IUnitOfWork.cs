@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using TheCompleteProject.Repository.Repositories.Jwt;
 using TheCompleteProject.Repository.Repositories.User;
 
 namespace TheCompleteProject.Repository.Infrastructure
@@ -11,5 +9,6 @@ namespace TheCompleteProject.Repository.Infrastructure
     {
         Task<int> SaveChangesAsync();
         IUserRepository UserRepository { get; }
+        IJwtRefreshTokenRepository JwtRefreshTokenRepository { get; }
     }
 }

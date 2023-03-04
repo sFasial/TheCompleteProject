@@ -280,3 +280,50 @@ REFRENCE
             return Ok("Record Added");
         }
     }
+
+
+-------------------------------- STEP 11> JWT REFRESH TOKENS
+REFRENCES
+--https://codepedia.info/aspnet-core-jwt-refresh-token-authentication
+--https://www.c-sharpcorner.com/article/jwt-authentication-with-refresh-tokens-in-net-6-0/
+
+1> ADDED A MODEL FOR (TOKENS) THIS MODEL IS FOR RESPONSES
+2> ADDED A DBMODEL FOR SAVING JWT REFRESH TOKEN (UserRefreshTokens)
+
+ADDED A SERVICE THAT DEALS WITH TOKEN GENERATION 
+  public interface IJWTManagerService
+    {
+        Tokens GenerateToken(string userName);
+        Tokens GenerateToken(Users userModel);
+        Tokens GenerateRefreshToken(string userName);
+        ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
+    }
+
+3> ADDED A REPOSITORY FOR IJwtRefreshTokenRepository THAT TAKES (UserRefreshTokens) SO WE CAN PERFORM 
+THE GENERICS OPERATIONS IE(CRUD OPERATIONS)
+ADDED SERVICE FOR ABOVE REPOSITORY THAT DEALS WITH REFRESH TOKENS
+    public interface IJwtRefreshTokenService
+    {
+        Task<bool> IsValidUserAsync(Users users);
+
+        Task<UserRefreshTokens> AddUserRefreshTokens(UserRefreshTokens user);
+
+        Task<UserRefreshTokens> GetSavedRefreshTokensAsync(string username, string refreshToken);
+
+        Task DeleteUserRefreshTokensAsync(string username, string refreshToken);
+    }
+
+4> NOW ADD A CONTROLLER
+   public class AuthenticationWithRefreshTokenController : ControllerBase
+   {
+        added 2 end points
+        [Route("Authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] LoginRequestDto loginDto)
+        {
+        }
+        [Route("Refresh")]
+        public async Task<IActionResult> RefreshAsync(Tokens token)
+        {
+        }
+   }
+

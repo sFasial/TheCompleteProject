@@ -6,6 +6,7 @@ using NetCore.AutoRegisterDi;
 using System.Reflection;
 using TheCompleteProject.Repository.DatabaseContext;
 using TheCompleteProject.Repository.Infrastructure;
+using TheCompleteProject.Repository.Repositories.Jwt;
 using TheCompleteProject.Repository.Repositories.User;
 using TheCompleteProject.Service;
 
@@ -36,6 +37,7 @@ namespace TheCompleteProject.Api.Infrastructure.Extensions
         public static void RegisterRepositories(this IServiceCollection services)
         {
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
+            services.AddScoped(typeof(IJwtRefreshTokenRepository), typeof(JwtRefreshTokenRepository));
         }
     }
 }
