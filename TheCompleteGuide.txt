@@ -12,6 +12,8 @@ STEP 8> WORKING WITH FILES
 STEP 9> BINDING OF APP SETTING WITH APPSETTING CLASS 
 STEP 10> ADDED JSON WEB TOKENS JWT
 STEP 11> WORKING WITH STORE PROCEDURES
+STEP 12> JWT REFRESH TOKENS
+STEP 13> STORE PROCEDURE OUTPUT PARAMETER
 --------------------------------INSTALLATIONS FROM NUGGET
 
 1>Microsoft.EntityFrameworkCore
@@ -282,7 +284,7 @@ REFRENCE
     }
 
 
--------------------------------- STEP 11> JWT REFRESH TOKENS
+-------------------------------- STEP 12> JWT REFRESH TOKENS
 REFRENCES
 --https://codepedia.info/aspnet-core-jwt-refresh-token-authentication
 --https://www.c-sharpcorner.com/article/jwt-authentication-with-refresh-tokens-in-net-6-0/
@@ -327,3 +329,44 @@ ADDED SERVICE FOR ABOVE REPOSITORY THAT DEALS WITH REFRESH TOKENS
         }
    }
 
+-------------------------------- STEP 12> SQL OUTPUT PARAMETER STORE PROCEDURE
+
+ADDED THIS 2 PACKAGED
+1>Newtonsoft.Json
+2>Microsoft.AspNetCore.MvcNewtonsoft.Json
+
+3> ADDED THIS SETTING IN START UP FOR SEL REFRENCING LOOP
+#region FOR THIS ERROR Self referencing loop detected for property 'Table' with type 'System.Data.DataTable'. Path 'Columns[0]'.
+            services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore); 
+ #endregion
+
+//NOTE THE ASYNCHRONUS METHOD DOES NOT TAKE OUT PARAMETER HENCE WE HAVE NOT MARKED THIS ASYNC
+
+ public static GetUsersDto GetUsersBySp(int from, int to, out int totalRecords, string search = "")
+        {
+            totalRecords = 0;
+
+            var fromParameter = new SqlParameter("@From", from);
+            var toParameter = new SqlParameter("@To", to);
+            var searchParameter = new SqlParameter("@Search", search == null ? "" : search);
+
+            var totalRecordsParameter = new SqlParameter("@TotalRecords", totalRecords);
+            totalRecordsParameter.Direction = ParameterDirection.Output;
+
+            var param = new List<SqlParameter>
+            {
+                fromParameter
+               ,toParameter
+               ,searchParameter
+               ,totalRecordsParameter
+            };
+
+            var result = Task.Run(async () => await SQLHelper.ExecuteProcedure<Users>("sp_FetchUser", param)).Result;
+            totalRecords = Convert.ToInt32(totalRecordsParameter.Value);
+
+            GetUsersDto usersDto = new GetUsersDto();
+            usersDto.Users = result.ToList();
+            usersDto.TotalRecords = totalRecords;
+
+            return usersDto;
+        }

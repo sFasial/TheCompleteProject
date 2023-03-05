@@ -8,6 +8,16 @@ namespace TheCompleteProject.Api.TestController
     [ApiController]
     public class StoreProcedureCalls : ControllerBase
     {
+
+        [HttpGet("OutputParameterStoreProcedure")]
+        public IActionResult DynamicStoreProcedureCallAsync(int from , int to , string search)
+        {
+            int TotalRecords = 0;
+            var result =  CommonStoreProcedure.GetUsersBySp(from,to,out TotalRecords,search);
+            return Ok(result);
+        }
+
+
         [HttpGet("DynamicStoreProcedureGet")]
         public async Task<IActionResult> DynamicStoreProcedureCallAsync(int id)
         {

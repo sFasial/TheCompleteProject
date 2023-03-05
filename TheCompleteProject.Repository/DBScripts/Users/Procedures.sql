@@ -1,4 +1,33 @@
 
+ALTER PROCEDURE sp_FetchUser
+ @From INT  
+,@To INT  
+,@Search varchar(100)  
+,@TotalRecords INT OUTPUT  
+AS                                             
+BEGIN
+			-- EXEC sp_FetchUser 4,3,'',''
+SET NOCOUNT ON;                              
+SET TRANSACTION ISOLATION LEVEL READ  UNCOMMITTED;  
+
+IF @From IS NULL OR @From = '' SET @From = 1
+IF @To IS NULL OR @To = '' SET @To = 10
+
+--FOR TOTAL RECORDS QUERY 
+SELECT @TotalRecords = COUNT (*) FROM Users ;
+
+--FOR SELECTING QUERY 
+SELECT * FROM Users u
+WHERE @Search is NULL OR
+(
+  (u.UserName LIKE '%'+ @Search +'%')
+OR(u.Email LIKE '%'+ @Search +'%')
+)
+ORDER BY u.id  
+OFFSET @From -1 ROWS
+FETCH NEXT @To ROWS ONLY
+END
+GO
 
 ALTER PROCEDURE sp_FetchUserName                     
  @UserId INT 

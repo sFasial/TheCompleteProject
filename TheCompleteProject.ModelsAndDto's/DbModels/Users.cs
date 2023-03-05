@@ -23,4 +23,10 @@ namespace TheCompleteProject.ModelsAndDto_s.DbModels
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public DateTime ModifiedDate { get; set; } = DateTime.Now;
     }
+
+    public class GetUsersDto
+    {
+        public List<Users> Users { get; set; }
+        public int TotalRecords { get; set; }
+    }
 }
