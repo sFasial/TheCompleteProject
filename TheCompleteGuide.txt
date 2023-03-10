@@ -14,6 +14,8 @@ STEP 10> ADDED JSON WEB TOKENS JWT
 STEP 11> WORKING WITH STORE PROCEDURES
 STEP 12> JWT REFRESH TOKENS
 STEP 13> STORE PROCEDURE OUTPUT PARAMETER
+STEP 14> GENERIC RESPONSE
+STEP 15> ROLE BASE AUTHORIZATION
 --------------------------------INSTALLATIONS FROM NUGGET
 
 1>Microsoft.EntityFrameworkCore
@@ -329,7 +331,7 @@ ADDED SERVICE FOR ABOVE REPOSITORY THAT DEALS WITH REFRESH TOKENS
         }
    }
 
--------------------------------- STEP 12> SQL OUTPUT PARAMETER STORE PROCEDURE
+-------------------------------- STEP 13> SQL OUTPUT PARAMETER STORE PROCEDURE
 
 ADDED THIS 2 PACKAGED
 1>Newtonsoft.Json
@@ -370,3 +372,27 @@ ADDED THIS 2 PACKAGED
 
             return usersDto;
         }
+
+-------------------------------- STEP 14> ADDED GENERIC RESPONSE CONTROLLER AND SERVICE 
+ADDED A CLASS GENERIC RESPONSE IN UTILITY CLASS LIBRARY  FOR GETTING CUSTOM RESPONSE
+ public class GenericResponse : IGenericResponse
+{
+    
+}
+
+public class GenericResponsesController : BaseController
+{
+
+       [Route("AuthenticateWithGenericResponse")]
+        public async Task<Dictionary<string, object>> Authenticate([FromBody] LoginRequestDto login)
+        {
+        }
+}
+
+-------------------------------- STEP 15> ROLE BASE AUTHORIZATION
+PLEASE REFER
+
+ public class AuthenticationRoleBased : BaseController
+ {
+    
+ }

@@ -11,3 +11,27 @@ CREATE TABLE [dbo].[Users](
 	[ModifiedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
+
+CREATE TABLE [dbo].[Role](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[RoleName] [nvarchar](50) NOT NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[ModifiedBy] [int] NULL,
+	[CreatedDate] [datetime] NULL,
+	[ModifiedDate] [datetime] NULL
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[UserRoleMapping](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [int] NOT NULL,
+	[RoleId] [int] NOT NULL,
+	[IsActive] [bit] NULL,
+	[CreatedBy] [int] NULL,
+	[ModifiedBy] [int] NULL,
+	[CreatedDate] [datetime] NULL,
+	[ModifiedDate] [datetime] NULL
+) ON [PRIMARY]
+GO
+

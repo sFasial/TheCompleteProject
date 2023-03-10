@@ -7,7 +7,9 @@ using System.Reflection;
 using TheCompleteProject.Repository.DatabaseContext;
 using TheCompleteProject.Repository.Infrastructure;
 using TheCompleteProject.Repository.Repositories.Jwt;
+using TheCompleteProject.Repository.Repositories.Role;
 using TheCompleteProject.Repository.Repositories.User;
+using TheCompleteProject.Repository.Repositories.UserRoleMaping;
 using TheCompleteProject.Service;
 
 namespace TheCompleteProject.Api.Infrastructure.Extensions
@@ -38,6 +40,8 @@ namespace TheCompleteProject.Api.Infrastructure.Extensions
         {
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
             services.AddScoped(typeof(IJwtRefreshTokenRepository), typeof(JwtRefreshTokenRepository));
+            services.AddScoped(typeof(IRoleRepository), typeof(RoleRepository));
+            services.AddScoped(typeof(IUserRoleMappingRepository), typeof(UserRoleMappingRepository));
         }
     }
 }
