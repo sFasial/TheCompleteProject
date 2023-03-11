@@ -9,6 +9,7 @@ using TheCompleteProject.ModelsAndDto_s.DbModels;
 using TheCompleteProject.ModelsAndDto_s.DbModels.Jwt;
 using TheCompleteProject.Service.Services.Jwt;
 using TheCompleteProject.Service.Services.User;
+using TheCompleteProject.Service.Services.UserRoleMappings;
 using TheCompleteProject.Utility;
 
 namespace TheCompleteProject.Api.Controllers
@@ -22,6 +23,7 @@ namespace TheCompleteProject.Api.Controllers
         private readonly AppSettings _appSettings;
         private readonly IJwtRefreshTokenService _jwtRefreshTokenService;
         private readonly IJWTManagerService _jwtManagerService;
+        private readonly IUserRoleMappingService _userRoleMappingService;
         private readonly IMapper _mapper;
 
         public AuthenticationWithRefreshTokenController
@@ -32,6 +34,7 @@ namespace TheCompleteProject.Api.Controllers
                , IJwtRefreshTokenService jwtRefreshTokenService
                , IJWTManagerService jwtManagerService
                , IMapper mapper
+               , IUserRoleMappingService userRoleMappingService
                )
         {
             _userService = userService;
@@ -39,6 +42,7 @@ namespace TheCompleteProject.Api.Controllers
             _jwtRefreshTokenService = jwtRefreshTokenService;
             _jwtManagerService = jwtManagerService;
             _mapper = mapper;
+            _userRoleMappingService = userRoleMappingService;
             _appSettings = appSettings.Value;
         }
 
@@ -54,7 +58,7 @@ namespace TheCompleteProject.Api.Controllers
             var validUser = await _jwtRefreshTokenService.IsValidUserAsync(User);
             if (validUser != null)
             {
-                //var userRoles = _userRoleMappingService.GetAllRolesByUserId(validUser.Id);
+                var userRoles = _userRoleMappingService.GetAllRolesByUserId(validUser.Id);
 
                 var token = _jwtManagerService.GenerateToken(validUser.UserName);
 

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TheCompleteProject.ModelsAndDto_s.DbModels.Role.Dto;
 using TheCompleteProject.Service.Services.Role;
 
 namespace TheCompleteProject.Api.Controllers
 {
+    [Authorize(Roles ="Admin,User")]
     [Route("api/[controller]")]
     [ApiController]
     public class RolesController : ControllerBase
@@ -30,6 +32,7 @@ namespace TheCompleteProject.Api.Controllers
 
         [HttpPost]
         [Route("Roles")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddRoles(AddRoleDto roleDto)
         {
             var role = await _roleService.AddRoles(roleDto);
@@ -42,6 +45,7 @@ namespace TheCompleteProject.Api.Controllers
 
         [HttpPut]
         [Route("Roles")]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> UpdateRoles(UpdateRoleDto roleDto)
         {
             var role = await _roleService.UpdateRole(roleDto);
@@ -54,6 +58,7 @@ namespace TheCompleteProject.Api.Controllers
 
         [HttpPost]
         [Route("DeactiveRole/{roleId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeactiveRole(int roleId)
         {
             var role = await _roleService.DeactiveRole(roleId);

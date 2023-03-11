@@ -390,9 +390,28 @@ public class GenericResponsesController : BaseController
 }
 
 -------------------------------- STEP 15> ROLE BASE AUTHORIZATION
-PLEASE REFER
+PLEASE REFER to This Controller 
+you just have to add the FOREACH PART IN CLAIMS FOR ROLE BASED AUTHORIZATION
 
  public class AuthenticationRoleBased : BaseController
  {
-    
+       public async Task<Dictionary<string, object>> Login([FromBody] LoginRequestDto loginRequest)
+        {
+            var user = await _userService.GetUserByForLogin(loginRequest.email, loginRequest.password);
+            if (user != null)
+            {
+                var userRoles = _userRoleMappingService.GetAllRolesByUserId(user.Id);
+
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email , user.Email),
+                    new Claim(ClaimTypes.Name , user.UserName),
+                    new Claim("UserId" , Convert.ToString(user.Id)),
+                    new Claim("RoleId" , Convert.ToString(user.RoleId)),
+                };
+                foreach (var item in userRoles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, item.RoleName));
+                }
+        }
  }

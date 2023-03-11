@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -12,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheCompleteProject.ModelsAndDto_s.Authentication;
 using TheCompleteProject.Service.Services.User;
+using TheCompleteProject.Service.Services.UserRoleMappings;
 using TheCompleteProject.Utility;
 
 namespace TheCompleteProject.Api.Controllers
@@ -23,21 +25,29 @@ namespace TheCompleteProject.Api.Controllers
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
         private readonly AppSettings _appSettings;
+        private readonly IUserRoleMappingService _userRoleMappingService;
 
-        public AuthenticationRoleBased(IUserService userService, IOptions<AppSettings> appSettings, IConfiguration Configuration)
+        public AuthenticationRoleBased(IUserService userService
+                            , IOptions<AppSettings> appSettings
+                            , IConfiguration Configuration
+                            , IUserRoleMappingService userRoleMappingService
+                            )
         {
             _userService = userService;
             _configuration = Configuration;
+            _userRoleMappingService = userRoleMappingService;
             _appSettings = appSettings.Value;
         }
 
-        [HttpPost("Login")]
+        [AllowAnonymous]
+        [HttpPost("RoleBasedLogin")]
         public async Task<Dictionary<string, object>> Login([FromBody] LoginRequestDto loginRequest)
         {
-
             var user = await _userService.GetUserByForLogin(loginRequest.email, loginRequest.password);
             if (user != null)
             {
+                var userRoles = _userRoleMappingService.GetAllRolesByUserId(user.Id);
+
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Email , user.Email),
@@ -45,6 +55,10 @@ namespace TheCompleteProject.Api.Controllers
                     new Claim("UserId" , Convert.ToString(user.Id)),
                     new Claim("RoleId" , Convert.ToString(user.RoleId)),
                 };
+                foreach (var item in userRoles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, item.RoleName));
+                }
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
