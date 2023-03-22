@@ -153,7 +153,7 @@ namespace TheCompleteProject.Utility
             var param = new List<SqlParameter>
             {
               new SqlParameter("@TABLENAME" ,tableName),
-              new SqlParameter("@COLUMNNAME" ,columnList),
+              new SqlParameter("@COLUMNAME" ,columnList),
               new SqlParameter("@WHERECONDITION" ,whereCondition),
               new SqlParameter("@ORDERBY" ,orderBy),
             };

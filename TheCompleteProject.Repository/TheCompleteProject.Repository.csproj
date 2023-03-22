@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="DBScripts\AllTables\" />
+    <Folder Include="DBScripts\SpsAndFunctions\" />
     <Folder Include="DBScripts\Users\" />
   </ItemGroup>
 
