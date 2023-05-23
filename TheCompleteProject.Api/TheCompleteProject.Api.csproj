@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Filter\" />
     <Folder Include="Infrastructure\Models\" />
     <Folder Include="wwwroot\TestingFiles\" />
   </ItemGroup>

@@ -36,7 +36,7 @@ namespace TheCompleteProject.Utility
             }
         }
 
-        public static string ReturnLanguageData(string key, string language)
+        public static string ReturnLanguageData(string key, string language="")
         {
             var languageContent = "";
             string languageData = null;

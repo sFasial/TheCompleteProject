@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheCompleteProject.Api.Infrastructure.Extensions;
+using TheCompleteProject.Api.Infrastructure.Filter;
 using TheCompleteProject.Api.Infrastructure.Middelware;
 using TheCompleteProject.Repository.DatabaseContext;
 using TheCompleteProject.Repository.Infrastructure;
@@ -41,10 +42,15 @@ namespace TheCompleteProject.Api
         {
 
             #region FOR Self referencing loop 
-            services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore); 
+            services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             #endregion
 
             services.AddControllers();
+            //This Part is For Filters
+            //services.AddControllers(options =>
+            //{
+            //    options.Filters.Add(typeof(ActionFilter));
+            //}).AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             #region BINDING OF APP SETTINGS CLASS IN UTILITY WITH APPSETTING.JSON 
 
