@@ -44,6 +44,7 @@ namespace TheCompleteProject.Api.Controllers
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+                var signingCredential = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                 var token = new JwtSecurityToken
                 (
@@ -52,6 +53,7 @@ namespace TheCompleteProject.Api.Controllers
                     claims: claims,
                     expires: DateTime.Now.AddMinutes(60),
                     signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+                  //signingCredentials: signingCredential
                 );
 
                 //return ApiResponse("100", new

@@ -35,3 +35,11 @@ CREATE TABLE [dbo].[UserRoleMapping](
 ) ON [PRIMARY]
 GO
 
+CREATE TABLE [dbo].[UserRefreshTokens](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[UserName] [varchar](200) NULL,
+	[RefreshToken] [varchar](max) NULL,
+	[IsActive] [bit] NULL
+)
+GO
+
