@@ -25,6 +25,8 @@ using TheCompleteProject.Repository.Repositories.User;
 using TheCompleteProject.Service.MappingProfile;
 using TheCompleteProject.Service.Services.User;
 using TheCompleteProject.Utility;
+using WatchDog;
+using WatchDog.src.Enums;
 
 namespace TheCompleteProject.Api
 {
@@ -132,16 +134,16 @@ namespace TheCompleteProject.Api
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-            options.RequireHttpsMetadata = false;
-            options.SaveToken = true;
-            options.TokenValidationParameters = new TokenValidationParameters()
-            {
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidAudience = Configuration["Jwt:Audience"],
-                ValidIssuer = Configuration["Jwt:Issuer"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Secret"]))
-            };
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Secret"]))
+                };
             });
 
             #endregion
@@ -160,6 +162,24 @@ namespace TheCompleteProject.Api
 
             #endregion
 
+            #region WatchDog Initialization
+            services.AddWatchDogServices();
+
+            //services.AddWatchDogServices(opt =>
+            //{
+            //    opt.IsAutoClear = true;
+            //    opt.ClearTimeSchedule = WatchDogAutoClearScheduleEnum.Monthly;
+            //});
+
+            //services.AddWatchDogServices(opt =>
+            //{
+            //    opt.IsAutoClear = false;
+            //    opt.SetExternalDbConnString = "Server=localhost;Database=testDb;User Id=postgres;Password=root;";
+            //    opt.DbDriverOption = WatchDogSqlDriverEnum.PostgreSql;
+            //});
+
+            #endregion
+
             services.AddTransient<ExceptionMiddleware>();
 
 
@@ -167,26 +187,40 @@ namespace TheCompleteProject.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CustomExceptionFilter v1"));
             }
+            app.UseWatchDogExceptionLogger();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
 
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseWatchDog(opt =>
+            {
+                //opt.WatchPageUsername = "admin";
+                opt.WatchPageUsername = Configuration["Watchdog:UserName"];
+                opt.WatchPagePassword = Configuration["Watchdog:Password"];
+            });
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

@@ -10,6 +10,7 @@
     <PackageReference Include="FluentValidation" Version="11.4.0" />
     <PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
+    <PackageReference Include="WatchDog.NET" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
