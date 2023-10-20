@@ -415,3 +415,58 @@ you just have to add the FOREACH PART IN CLAIMS FOR ROLE BASED AUTHORIZATION
                 }
         }
  }
+
+ -------------------------------- ENVIORMENT VARIABLES
+ 1> Added a new controller(TestAnyActionMethodsController) & inside that controller added a static class
+ 
+public static class ServiceCollectionExtensions
+{
+    private static Dictionary<string, string> EnvironmentVariables = new Dictionary<string, string>();
+
+    /// <summary>
+    /// This method will read all the environment variables
+    /// </summary>
+    private static void ReadEnvironmentVariables()
+    {
+        #region ReadEnvironmentVariables
+
+        foreach (FieldInfo info in typeof(ConstantsEnviormentTest).GetFields().Where(x => x.IsStatic))
+        {
+            string key = info.GetRawConstantValue().ToString();
+            EnvironmentVariables.Add(key, Environment.GetEnvironmentVariable(key));
+        }
+
+        #endregion
+    }
+
+    public static IServiceCollection AddDashServices(this IServiceCollection services, AppSettings appsettings)
+    {
+
+        //SETTING UP THE PRIVATE DICTIONARY OBJECT 
+        ReadEnvironmentVariables();
+
+
+        //READING THE VALUE IF VALUE EXIST INITIALIZING IT IN THE APP SETTINGS 
+        if (EnvironmentVariables[ConstantsEnviormentTest.MyMachineEnviorment] != "Development")
+            appsettings.ServerName = Environment.MachineName;
+
+        string serverType = EnvironmentVariables[ConstantsEnviormentTest.MyMachineServer];
+        if (string.IsNullOrWhiteSpace(serverType))
+        {
+            //Log.Error("Kiwi Server Type is required in environment variables.");
+        }
+        else
+            appsettings.ServerName = serverType;
+
+        return services;
+    }
+}
+
+2> Added .env file
+
+3> Added refrnece in STartup.cs
+ services.AddDashServices(appSettings);
+
+4> For TEsting ENviorment Variables Added key value pairs in
+1>AppSettings.cs
+2>Constant.cs

@@ -13,5 +13,12 @@ namespace TheCompleteProject.Utility
         public string EmailId { get; set; }
         public string Password { get; set; }
         public string Host { get; set; }
+
+        //Enviorment Variable Test
+
+        public string ServerName { get; set; }
+        public string Connection { get; set; }
+        public string MyMachineEnviorment { get; set; }
+
     }
 }

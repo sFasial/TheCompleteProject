@@ -11,9 +11,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TheCompleteProject.Api.Infrastructure.Extensions;
@@ -43,6 +45,73 @@ namespace TheCompleteProject.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
+            DotNetEnv.Env.Load();
+
+            #region BINDING OF APP SETTINGS CLASS IN UTILITY WITH APPSETTING.JSON 
+
+            var appSettingSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingSection);
+            var appSettings = appSettingSection.Get<AppSettings>();
+
+
+            #endregion
+
+            #region ENVIORMENT VARIABLE IN FUTURE REFRENCE 
+
+            services.AddDashServices(appSettings);
+
+            //            using Microsoft.Extensions.DependencyInjection;
+            //            using NPOI.SS.Formula.Functions;
+            //            using System.Collections.Generic;
+            //            using System.Reflection;
+            //            using System;
+            //            using TheCompleteProject.Utility;
+            //            using System.Linq;
+
+            //public static class ServiceCollectionExtensions
+            //        {
+            //            private static Dictionary<string, string> EnvironmentVariables = new Dictionary<string, string>();
+
+            //            /// <summary>
+            //            /// This method will read all the environment variables
+            //            /// </summary>
+            //            private static void ReadEnvironmentVariables()
+            //            {
+            //                #region ReadEnvironmentVariables
+
+            //                foreach (FieldInfo info in typeof(ConstantsEnviormentTest).GetFields().Where(x => x.IsStatic))
+            //                {
+            //                    string key = info.GetRawConstantValue().ToString();
+            //                    EnvironmentVariables.Add(key, Environment.GetEnvironmentVariable(key));
+            //                }
+
+            //                #endregion
+            //            }
+
+            //            public static IServiceCollection AddDashServices(this IServiceCollection services, AppSettings appsettings)
+            //            {
+
+            //                //SETTING UP THE PRIVATE DICTIONARY OBJECT 
+            //                ReadEnvironmentVariables();
+
+
+            //                //READING THE VALUE IF VALUE EXIST INITIALIZING IT IN THE APP SETTINGS 
+            //                if (EnvironmentVariables[ConstantsEnviormentTest.MyMachineEnviorment] != "Development")
+            //                    appsettings.ServerName = Environment.MachineName;
+
+            //                string serverType = EnvironmentVariables[ConstantsEnviormentTest.MyMachineServer];
+            //                if (string.IsNullOrWhiteSpace(serverType))
+            //                    Log.Error("Kiwi Server Type is required in environment variables.");
+            //                else
+            //                    appsettings.ServerName = serverType;
+
+            //                return services;
+            //            }
+            //        }
+
+            #endregion
+
+
             #region FOR Self referencing loop 
             services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             #endregion
@@ -54,13 +123,7 @@ namespace TheCompleteProject.Api
             //    options.Filters.Add(typeof(ActionFilter));
             //}).AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<Startup>());
 
-            #region BINDING OF APP SETTINGS CLASS IN UTILITY WITH APPSETTING.JSON 
 
-            var appSettingSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingSection);
-            var appSettings = appSettingSection.Get<AppSettings>();
-
-            #endregion
 
 
             #region FOR MODEL STATE DEBUG
@@ -201,7 +264,7 @@ namespace TheCompleteProject.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            
+
 
             app.UseMiddleware<ExceptionMiddleware>();
 
